@@ -6,11 +6,11 @@ FROM golang:latest
 
 ENV APP_NAME comparators
 
-RUN mkdir -p "/go/src/${APP_NAME}"
+RUN mkdir -p $GOPATH/src/$APP_NAME
 
-WORKDIR "/go/src/${APP_NAME}"
+WORKDIR $GOPATH/src/$APP_NAME
 
-ADD . "/go/src/${APP_NAME}"
+ADD . $GOPATH/src/$APP_NAME
 
 # Build the outyet command inside the container.
 # (You may fetch or manage dependencies here,
@@ -18,7 +18,7 @@ ADD . "/go/src/${APP_NAME}"
 RUN go install
 
 # Run the outyet command by default when the container starts.
-ENTRYPOINT "/go/bin/${APP_NAME}"
+ENTRYPOINT $GOPATH/bin/$APP_NAME
 
 # Document that the service listens on port 8080.
 EXPOSE 8080
