@@ -1,0 +1,24 @@
+# Docker image for Drone's slack notification plugin
+#
+#     CGO_ENABLED=0 go build -a -tags netgo
+#     docker build --rm=true -t plugins/drone-slack .
+FROM golang:latest
+
+ENV APP_NAME comparators
+
+RUN mkdir -p "/go/src/${APP_NAME}"
+
+WORKDIR "/go/src/${APP_NAME}"
+
+ADD . "/go/src/${APP_NAME}"
+
+# Build the outyet command inside the container.
+# (You may fetch or manage dependencies here,
+# either manually or with a tool like "godep".)
+RUN go install
+
+# Run the outyet command by default when the container starts.
+ENTRYPOINT "/go/bin/${APP_NAME}"
+
+# Document that the service listens on port 8080.
+EXPOSE 8080
